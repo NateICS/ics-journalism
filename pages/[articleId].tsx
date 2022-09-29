@@ -5,8 +5,6 @@ const ArticleId = () => {
 
   const { articleId } = router.query
 
-  console.log(articleId)
-
   return (
     <>
       <h1>Article ID</h1>
