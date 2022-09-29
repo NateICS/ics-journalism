@@ -1,8 +1,4 @@
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth"
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth"
 import { useRouter } from "next/router"
 import { FormEvent, useState } from "react"
 import { auth } from "../firebase"
@@ -19,16 +15,7 @@ const Login = () => {
     e.preventDefault()
 
     signInWithEmailAndPassword(auth, email, password)
-      .then(({ user }) => {
-        updateProfile(user, {
-          displayName:
-            email.split(".")[0][0].toUpperCase() +
-            email.split(".")[0].substring(1) +
-            " " +
-            email.split(".")[1].split("@")[0][0].toUpperCase() +
-            email.split(".")[1].split("@")[0].substring(1),
-        })
-      })
+      .then(({ user }) => {})
       .catch((error) => {
         setFailedLogin(true)
       })
