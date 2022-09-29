@@ -1,4 +1,3 @@
-import { onAuthStateChanged } from "firebase/auth"
 import { addDoc, collection } from "firebase/firestore"
 import { useRouter } from "next/router"
 import { FormEvent, useState } from "react"
@@ -10,20 +9,22 @@ const New = () => {
 
   const router = useRouter()
 
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      router.push("/login")
-    }
-  })
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    const email = auth.currentUser?.email!
 
     await addDoc(collection(db, "articles"), {
       title,
       body,
-      author: auth.currentUser?.email,
+      author: email,
       timestamp: Date.now(),
+      authorName:
+        email.split(".")[0][0].toUpperCase() +
+        email.split(".")[0].substring(1)! +
+        " " +
+        email.split(".")[1].split("@")[0][0].toUpperCase() +
+        email.split(".")[1].split("@")[0].substring(1),
     }).then(() => router.push("/"))
   }
 
