@@ -6,6 +6,7 @@ import {
   orderBy,
   query,
 } from "firebase/firestore"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import { db } from "../firebase"
 import styles from "../styles/index.module.css"
@@ -26,7 +27,10 @@ const Index = () => {
       )
 
       querySnapshot.forEach((doc) => {
-        setArticles((oldArtciles) => [...oldArtciles, doc.data()])
+        setArticles((oldArtciles) => [
+          ...oldArtciles,
+          { ...doc.data(), id: doc.id },
+        ])
       })
     }
 
@@ -37,18 +41,20 @@ const Index = () => {
     <>
       <h1>Index</h1>
 
-      {articles.map(({ title, author, body, timestamp }, i) => (
+      {articles.map(({ title, author, body, timestamp, id }, i) => (
         <div key={i} className={styles.article}>
-          <p className={styles.title}>{title}</p>
-          <p>
-            {author.split(".")[0][0].toUpperCase() +
-              author.split(".")[0].substring(1) +
-              " " +
-              author.split(".")[1].split("@")[0][0].toUpperCase() +
-              author.split(".")[1].split("@")[0].substring(1)}{" "}
-            - {new Date(timestamp).toDateString().slice(4)}
-          </p>
-          <p className={styles.body}>{body}</p>
+          <Link href={id}>
+            <p className={styles.title}>{title}</p>
+            <p>
+              {author.split(".")[0][0].toUpperCase() +
+                author.split(".")[0].substring(1) +
+                " " +
+                author.split(".")[1].split("@")[0][0].toUpperCase() +
+                author.split(".")[1].split("@")[0].substring(1)}{" "}
+              - {new Date(timestamp).toDateString().slice(4)}
+            </p>
+            <p className={styles.body}>{body}</p>
+          </Link>
         </div>
       ))}
     </>
