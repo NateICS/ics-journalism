@@ -1,5 +1,6 @@
 import { doc, DocumentData, getDoc } from "firebase/firestore"
 import { GetServerSideProps } from "next"
+import Head from "next/head"
 import { db } from "../firebase"
 
 const ArticleId = ({
@@ -7,11 +8,15 @@ const ArticleId = ({
 }: DocumentData) => {
   return (
     <>
+      <Head>
+        <title>The Muffiner - {title}</title>
+      </Head>
+
       <h1 className="header">{title}</h1>
       <p>
         {authorName} - {new Date(timestamp).toDateString().slice(4)}
       </p>
-      <p>{body}</p>
+      <p>{body || "Body"}</p>
     </>
   )
 }
@@ -21,8 +26,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     doc(db, "articles", String(context.query.articleId))
   )
 
+  const data = docSnap.data()
+
   return {
-    props: { data: docSnap.data() },
+    props: {
+      data: data || null,
+    },
   }
 }
 

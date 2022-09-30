@@ -38,11 +38,11 @@ const Index = ({ articles }: { articles: DocumentData[] }) => {
 export const getServerSideProps = async () => {
   const articles: DocumentData[] = []
 
-  const qSnap = await getDocs(
-    query(collection(db, "articles"), orderBy("timestamp", "desc"), limit(5))
-  )
-
-  qSnap.forEach((doc) => {
+  ;(
+    await getDocs(
+      query(collection(db, "articles"), orderBy("timestamp", "desc"), limit(5))
+    )
+  ).forEach((doc) => {
     articles.push({ ...doc.data(), id: doc.id })
   })
 
