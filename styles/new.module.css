@@ -1,0 +1,9 @@
+.title {
+  width: 600px;
+}
+
+.body {
+  width: 600px;
+  height: 200px;
+  resize: none;
+}

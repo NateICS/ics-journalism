@@ -2,11 +2,16 @@ import { doc, DocumentData, getDoc } from "firebase/firestore"
 import { GetServerSideProps } from "next"
 import { db } from "../firebase"
 
-const ArticleId = ({ data: { authorName } }: DocumentData) => {
+const ArticleId = ({
+  data: { title, body, authorName, timestamp },
+}: DocumentData) => {
   return (
     <>
-      <h1>Article ID</h1>
-      {authorName}
+      <h1 className="header">{title}</h1>
+      <p>
+        {authorName} - {new Date(timestamp).toDateString().slice(4)}
+      </p>
+      <p>{body}</p>
     </>
   )
 }

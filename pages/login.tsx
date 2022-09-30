@@ -1,4 +1,4 @@
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth"
+import { signInWithEmailAndPassword } from "firebase/auth"
 import { useRouter } from "next/router"
 import { FormEvent, useState } from "react"
 import { auth } from "../firebase"
@@ -15,17 +15,13 @@ const Login = () => {
     e.preventDefault()
 
     signInWithEmailAndPassword(auth, email, password)
-      .then(({ user }) => {})
+      .then(({ user }) => {
+        router.push("/new")
+      })
       .catch((error) => {
         setFailedLogin(true)
       })
   }
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      router.push("/new")
-    }
-  })
 
   return (
     <>

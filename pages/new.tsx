@@ -2,6 +2,7 @@ import { addDoc, collection } from "firebase/firestore"
 import { useRouter } from "next/router"
 import { FormEvent, useState } from "react"
 import { auth, db } from "../firebase"
+import styles from "../styles/new.module.css"
 
 const New = () => {
   const [title, setTitle] = useState("")
@@ -30,7 +31,7 @@ const New = () => {
 
   return (
     <>
-      <h1>New</h1>
+      <h1 className="header">New</h1>
 
       <form onSubmit={handleSubmit}>
         <input
@@ -38,13 +39,21 @@ const New = () => {
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          className={styles.title}
         />
-        <input
-          type="text"
+
+        <br />
+        <br />
+
+        <textarea
           placeholder="Body"
           value={body}
           onChange={(e) => setBody(e.target.value)}
+          className={styles.body}
         />
+
+        <br />
+        <br />
 
         <button>Submit</button>
       </form>
