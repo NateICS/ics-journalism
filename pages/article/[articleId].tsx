@@ -1,7 +1,8 @@
 import { doc, DocumentData, getDoc } from "firebase/firestore"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
-import { db } from "../firebase"
+import Link from "next/link"
+import { db } from "../../firebase"
 
 const ArticleId = ({
   data: { title, body, authorName, timestamp },
@@ -14,7 +15,10 @@ const ArticleId = ({
 
       <h1 className="header">{title}</h1>
       <p>
-        {authorName} - {new Date(timestamp).toDateString().slice(4)}
+        <Link href={`/author/${authorName.replace(" ", "+")}`}>
+          {authorName}
+        </Link>{" "}
+        - {new Date(timestamp).toDateString().slice(4)}
       </p>
       <p>{body || "Body"}</p>
     </>

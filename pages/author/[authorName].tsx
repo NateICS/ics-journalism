@@ -5,20 +5,20 @@ import {
   limit,
   orderBy,
   query,
+  where,
 } from "firebase/firestore"
-import Head from "next/head"
+import { GetServerSideProps } from "next"
 import Link from "next/link"
-import { db } from "../firebase"
-import styles from "../styles/index.module.css"
+import { useRouter } from "next/router"
+import { db } from "../../firebase"
+import styles from "../../styles/index.module.css"
 
-const Index = ({ articles }: { articles: DocumentData[] }) => {
+const Author = ({ articles }: { articles: DocumentData[] }) => {
+  const router = useRouter()
+
   return (
     <>
-      <Head>
-        <title>The Muffiner</title>
-      </Head>
-
-      <h1 className="header">The Muffiner</h1>
+      <h1>{String(router.query.authorName!).replace("+", " ")}</h1>
 
       {articles.map(({ title, authorName, body, timestamp, id }, i) => (
         <Link href={`/article/${id}`} key={i}>
@@ -38,12 +38,21 @@ const Index = ({ articles }: { articles: DocumentData[] }) => {
   )
 }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const articles: DocumentData[] = []
 
   ;(
     await getDocs(
-      query(collection(db, "articles"), orderBy("timestamp", "desc"), limit(5))
+      query(
+        collection(db, "articles"),
+        where(
+          "authorName",
+          "==",
+          String(context.query.authorName!).replace("+", " ")
+        ),
+        orderBy("timestamp", "desc"),
+        limit(5)
+      )
     )
   ).forEach((doc) => {
     articles.push({ ...doc.data(), id: doc.id })
@@ -54,4 +63,4 @@ export const getServerSideProps = async () => {
   }
 }
 
-export default Index
+export default Author
