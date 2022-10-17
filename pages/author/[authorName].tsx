@@ -8,29 +8,39 @@ import {
   where,
 } from "firebase/firestore"
 import { GetServerSideProps } from "next"
+import Head from "next/head"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { db } from "../../firebase"
-import styles from "../../styles/index.module.css"
 
 const Author = ({ articles }: { articles: DocumentData[] }) => {
   const router = useRouter()
 
+  const authorName = String(router.query.authorName!).replace("+", " ")
+
   return (
     <>
-      <h1>{String(router.query.authorName!).replace("+", " ")}</h1>
+      <Head>
+        <title>The Muffiner - {authorName}</title>
+      </Head>
 
-      {articles.map(({ title, authorName, body, timestamp, id }, i) => (
+      <h2>{authorName}</h2>
+
+      {articles.map(({ title, body, timestamp, id }, i) => (
         <Link href={`/article/${id}`} key={i}>
-          <div className={styles.article}>
-            <p className={styles.title}>{title}</p>
+          <div
+            style={{
+              backgroundColor: "beige",
+            }}
+          >
+            <p>{title}</p>
             <p>
               <Link href={`/author/${authorName.replace(" ", "+")}`}>
                 {authorName}
               </Link>{" "}
               - {new Date(timestamp).toDateString().slice(4)}
             </p>
-            <p className={styles.body}>{body}</p>
+            <p>{body}</p>
           </div>
         </Link>
       ))}

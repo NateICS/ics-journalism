@@ -9,7 +9,6 @@ import {
 import Head from "next/head"
 import Link from "next/link"
 import { db } from "../firebase"
-import styles from "../styles/index.module.css"
 
 const Index = ({ articles }: { articles: DocumentData[] }) => {
   return (
@@ -18,19 +17,21 @@ const Index = ({ articles }: { articles: DocumentData[] }) => {
         <title>The Muffiner</title>
       </Head>
 
-      <h1 className="header">The Muffiner</h1>
-
       {articles.map(({ title, authorName, body, timestamp, id }, i) => (
         <Link href={`/article/${id}`} key={i}>
-          <div className={styles.article}>
-            <p className={styles.title}>{title}</p>
+          <div
+            style={{
+              backgroundColor: "beige",
+            }}
+          >
+            <p>{title}</p>
             <p>
               <Link href={`/author/${authorName.replace(" ", "+")}`}>
                 {authorName}
               </Link>{" "}
               - {new Date(timestamp).toDateString().slice(4)}
             </p>
-            <p className={styles.body}>{body}</p>
+            <p>{body}</p>
           </div>
         </Link>
       ))}

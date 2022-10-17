@@ -31,7 +31,7 @@ const New = () => {
 
   return (
     <>
-      <h1 className="header">New</h1>
+      <h2>New</h2>
 
       <form onSubmit={handleSubmit}>
         <input
@@ -39,7 +39,6 @@ const New = () => {
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className={styles.title}
         />
 
         <br />
@@ -49,7 +48,6 @@ const New = () => {
           placeholder="Body"
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          className={styles.body}
         />
 
         <br />

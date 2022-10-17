@@ -13,14 +13,16 @@ const ArticleId = ({
         <title>The Muffiner - {title}</title>
       </Head>
 
-      <h1 className="header">{title}</h1>
-      <p>
-        <Link href={`/author/${authorName.replace(" ", "+")}`}>
-          {authorName}
-        </Link>{" "}
-        - {new Date(timestamp).toDateString().slice(4)}
-      </p>
-      <p>{body || "Body"}</p>
+      <div>
+        <h2>{title}</h2>
+        <p>
+          <Link href={`/author/${authorName.replace(" ", "+")}`}>
+            {authorName}
+          </Link>{" "}
+          - {new Date(timestamp).toDateString().slice(4)}
+        </p>
+        <p>{body}</p>
+      </div>
     </>
   )
 }
@@ -34,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      data: data || null,
+      data: data,
     },
   }
 }
