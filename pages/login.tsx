@@ -15,12 +15,8 @@ const Login = () => {
     e.preventDefault()
 
     signInWithEmailAndPassword(auth, email, password)
-      .then(({ user }) => {
-        router.push("/new")
-      })
-      .catch((error) => {
-        setFailedLogin(true)
-      })
+      .then(() => router.push("/new"))
+      .catch(() => setFailedLogin(true))
   }
 
   return (

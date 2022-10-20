@@ -1,6 +1,6 @@
 import { ReactElement } from "react"
-import Footer from "./footer"
-import Navbar from "./navbar"
+import Footer from "./Footer"
+import Navbar from "./Navbar"
 
 const Layout = ({ children }: { children: ReactElement }) => {
   return (

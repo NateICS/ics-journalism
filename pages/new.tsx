@@ -2,7 +2,6 @@ import { addDoc, collection } from "firebase/firestore"
 import { useRouter } from "next/router"
 import { FormEvent, useState } from "react"
 import { auth, db } from "../firebase"
-import styles from "../styles/new.module.css"
 
 const New = () => {
   const [title, setTitle] = useState("")
@@ -10,10 +9,10 @@ const New = () => {
 
   const router = useRouter()
 
+  const email = auth.currentUser?.email!
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
-    const email = auth.currentUser?.email!
 
     await addDoc(collection(db, "articles"), {
       title,
@@ -41,17 +40,12 @@ const New = () => {
           onChange={(e) => setTitle(e.target.value)}
         />
 
-        <br />
-        <br />
-
-        <textarea
+        <input
+          type="text"
           placeholder="Body"
           value={body}
           onChange={(e) => setBody(e.target.value)}
         />
-
-        <br />
-        <br />
 
         <button>Submit</button>
       </form>

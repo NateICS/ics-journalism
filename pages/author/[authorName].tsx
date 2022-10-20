@@ -13,7 +13,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { db } from "../../firebase"
 
-const Author = ({ articles }: { articles: DocumentData[] }) => {
+const AuthorName = ({ articles }: { articles: DocumentData[] }) => {
   const router = useRouter()
 
   const authorName = String(router.query.authorName!).replace("+", " ")
@@ -26,19 +26,20 @@ const Author = ({ articles }: { articles: DocumentData[] }) => {
 
       <h2>{authorName}</h2>
 
-      {articles.map(({ title, body, timestamp, id }, i) => (
-        <Link href={`/article/${id}`} key={i}>
+      {articles.map(({ title, body, timestamp, id }) => (
+        <Link href={`/article/${id}`} key={id}>
           <div
             style={{
               backgroundColor: "beige",
             }}
           >
-            <p>{title}</p>
+            <h3>{title}</h3>
             <p>
               <Link href={`/author/${authorName.replace(" ", "+")}`}>
                 {authorName}
-              </Link>{" "}
-              - {new Date(timestamp).toDateString().slice(4)}
+              </Link>
+              {" - "}
+              {new Date(timestamp).toDateString().slice(4)}
             </p>
             <p>{body}</p>
           </div>
@@ -48,23 +49,25 @@ const Author = ({ articles }: { articles: DocumentData[] }) => {
   )
 }
 
+export default AuthorName
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const articles: DocumentData[] = []
 
-  ;(
-    await getDocs(
-      query(
-        collection(db, "articles"),
-        where(
-          "authorName",
-          "==",
-          String(context.query.authorName!).replace("+", " ")
-        ),
-        orderBy("timestamp", "desc"),
-        limit(5)
-      )
+  const q = await getDocs(
+    query(
+      collection(db, "articles"),
+      where(
+        "authorName",
+        "==",
+        String(context.query.authorName!).replace("+", " ")
+      ),
+      orderBy("timestamp", "desc"),
+      limit(5)
     )
-  ).forEach((doc) => {
+  )
+
+  q.forEach((doc) => {
     articles.push({ ...doc.data(), id: doc.id })
   })
 
@@ -72,5 +75,3 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: { articles },
   }
 }
-
-export default Author

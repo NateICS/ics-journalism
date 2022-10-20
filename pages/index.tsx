@@ -17,19 +17,20 @@ const Index = ({ articles }: { articles: DocumentData[] }) => {
         <title>The Muffiner</title>
       </Head>
 
-      {articles.map(({ title, authorName, body, timestamp, id }, i) => (
-        <Link href={`/article/${id}`} key={i}>
+      {articles.map(({ title, authorName, body, timestamp, id }) => (
+        <Link href={`/article/${id}`} key={id}>
           <div
             style={{
               backgroundColor: "beige",
             }}
           >
-            <p>{title}</p>
+            <h3>{title}</h3>
             <p>
               <Link href={`/author/${authorName.replace(" ", "+")}`}>
                 {authorName}
-              </Link>{" "}
-              - {new Date(timestamp).toDateString().slice(4)}
+              </Link>
+              {" - "}
+              {new Date(timestamp).toDateString().slice(4)}
             </p>
             <p>{body}</p>
           </div>
@@ -39,14 +40,16 @@ const Index = ({ articles }: { articles: DocumentData[] }) => {
   )
 }
 
+export default Index
+
 export const getServerSideProps = async () => {
   const articles: DocumentData[] = []
 
-  ;(
-    await getDocs(
-      query(collection(db, "articles"), orderBy("timestamp", "desc"), limit(5))
-    )
-  ).forEach((doc) => {
+  const q = await getDocs(
+    query(collection(db, "articles"), orderBy("timestamp", "desc"), limit(2))
+  )
+
+  q.forEach((doc) => {
     articles.push({ ...doc.data(), id: doc.id })
   })
 
@@ -54,5 +57,3 @@ export const getServerSideProps = async () => {
     props: { articles },
   }
 }
-
-export default Index

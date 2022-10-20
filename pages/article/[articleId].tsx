@@ -13,19 +13,26 @@ const ArticleId = ({
         <title>The Muffiner - {title}</title>
       </Head>
 
-      <div>
-        <h2>{title}</h2>
+      <div
+        style={{
+          backgroundColor: "beige",
+        }}
+      >
+        <h3>{title}</h3>
         <p>
           <Link href={`/author/${authorName.replace(" ", "+")}`}>
             {authorName}
-          </Link>{" "}
-          - {new Date(timestamp).toDateString().slice(4)}
+          </Link>
+          {" - "}
+          {new Date(timestamp).toDateString().slice(4)}
         </p>
         <p>{body}</p>
       </div>
     </>
   )
 }
+
+export default ArticleId
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const docSnap = await getDoc(
@@ -40,5 +47,3 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   }
 }
-
-export default ArticleId
