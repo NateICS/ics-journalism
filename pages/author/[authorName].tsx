@@ -27,23 +27,23 @@ const AuthorName = ({ articles }: { articles: DocumentData[] }) => {
       <h2>{authorName}</h2>
 
       {articles.map(({ title, body, timestamp, id }) => (
-        <Link href={`/article/${id}`} key={id}>
-          <div
-            style={{
-              backgroundColor: "beige",
-            }}
-          >
+        <div
+          style={{
+            backgroundColor: "beige",
+          }}
+          key={id}
+        >
+          <Link href={`/article/${id}`}>
             <h3>{title}</h3>
-            <p>
-              <Link href={`/author/${authorName.replace(" ", "+")}`}>
-                {authorName}
-              </Link>
-              {" - "}
-              {new Date(timestamp).toDateString().slice(4)}
-            </p>
-            <p>{body}</p>
-          </div>
-        </Link>
+          </Link>
+
+          <Link href={`/author/${authorName.replace(" ", "+")}`}>
+            {authorName}
+          </Link>
+          <span> - {new Date(timestamp).toDateString().slice(4)}</span>
+
+          <p>{body}</p>
+        </div>
       ))}
     </>
   )
