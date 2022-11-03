@@ -1,0 +1,10 @@
+.link {
+  display: block;
+  width: max-content;
+  margin: auto;
+}
+
+.header {
+  font-family: OldEnglish;
+  font-size: 48px;
+}

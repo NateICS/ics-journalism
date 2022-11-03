@@ -9,6 +9,7 @@ import {
 import Head from "next/head"
 import Link from "next/link"
 import { db } from "../firebase"
+import aStyles from "../styles/article.module.css"
 
 const Index = ({ articles }: { articles: DocumentData[] }) => {
   return (
@@ -25,7 +26,7 @@ const Index = ({ articles }: { articles: DocumentData[] }) => {
           key={id}
         >
           <Link href={`/article/${id}`}>
-            <h3>{title}</h3>
+            <h3 className={aStyles.title}>{title}</h3>
           </Link>
 
           <Link href={`/author/${authorName.replace(" ", "+")}`}>
@@ -46,7 +47,7 @@ export const getServerSideProps = async () => {
   const articles: DocumentData[] = []
 
   const q = await getDocs(
-    query(collection(db, "articles"), orderBy("timestamp", "desc"), limit(2))
+    query(collection(db, "articles"), orderBy("timestamp", "desc"), limit(7))
   )
 
   q.forEach((doc) => {
