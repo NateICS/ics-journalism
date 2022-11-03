@@ -7,9 +7,8 @@ import {
   query,
 } from "firebase/firestore"
 import Head from "next/head"
-import Link from "next/link"
+import Article from "../components/Article"
 import { db } from "../firebase"
-import aStyles from "../styles/article.module.css"
 
 const Index = ({ articles }: { articles: DocumentData[] }) => {
   return (
@@ -19,23 +18,14 @@ const Index = ({ articles }: { articles: DocumentData[] }) => {
       </Head>
 
       {articles.map(({ title, authorName, body, timestamp, id }) => (
-        <div
-          style={{
-            backgroundColor: "beige",
-          }}
+        <Article
+          title={title}
+          authorName={authorName}
+          body={body}
+          timestamp={timestamp}
+          id={id}
           key={id}
-        >
-          <Link href={`/article/${id}`}>
-            <h3 className={aStyles.title}>{title}</h3>
-          </Link>
-
-          <Link href={`/author/${authorName.replace(" ", "+")}`}>
-            {authorName}
-          </Link>
-          <span> - {new Date(timestamp).toDateString().slice(4)}</span>
-
-          <p>{body}</p>
-        </div>
+        />
       ))}
     </>
   )

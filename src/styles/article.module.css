@@ -1,3 +1,9 @@
-.title {
-  margin-top: 0;
+.article {
+  margin: 10px;
+  background-color: beige;
+}
+
+.titleLink {
+  display: block;
+  width: max-content;
 }

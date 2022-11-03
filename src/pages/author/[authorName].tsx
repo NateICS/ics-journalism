@@ -9,8 +9,8 @@ import {
 } from "firebase/firestore"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
-import Link from "next/link"
 import { useRouter } from "next/router"
+import Article from "../../components/Article"
 import { db } from "../../firebase"
 
 const AuthorName = ({ articles }: { articles: DocumentData[] }) => {
@@ -27,23 +27,14 @@ const AuthorName = ({ articles }: { articles: DocumentData[] }) => {
       <h2>{authorName}</h2>
 
       {articles.map(({ title, body, timestamp, id }) => (
-        <div
-          style={{
-            backgroundColor: "beige",
-          }}
+        <Article
+          title={title}
+          authorName={authorName}
+          body={body}
+          timestamp={timestamp}
+          id={id}
           key={id}
-        >
-          <Link href={`/article/${id}`}>
-            <h3>{title}</h3>
-          </Link>
-
-          <Link href={`/author/${authorName.replace(" ", "+")}`}>
-            {authorName}
-          </Link>
-          <span> - {new Date(timestamp).toDateString().slice(4)}</span>
-
-          <p>{body}</p>
-        </div>
+        />
       ))}
     </>
   )
